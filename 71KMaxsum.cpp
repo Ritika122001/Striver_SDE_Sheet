@@ -1,37 +1,65 @@
 #include <bits/stdc++.h> 
 vector<int> kMaxSumCombination(vector<int> &a, vector<int> &b, int n, int k){
 	// Write your code here.
-	  sort(a.begin(), a.end());
+unordered_map<int,int>mp;
 
-      vector<int> v;
+ int mx=*max_element(a.begin(),a.end())+*max_element(b.begin(),b.end());
 
-      priority_queue<int, vector<int>, greater<int> > pq;
+ int mn=*min_element(a.begin(),a.end())+*min_element(b.begin(),b.end());
 
-      for(int i=n-1; i>=0; i--){
+    for(int i=0;i<n;i++)
 
-          for(int j=n-1; j>=0; j--){
+    {
 
-             pq.push(a[i] + b[j]);
+        for(int j=0;j<n;j++)
 
-             if(pq.size() > k){
+        {
 
-                 pq.pop();
+            int sum=a[i]+b[j];
 
-             }      
+            mp[sum]++;
 
-          }
+        }
 
-      }
+    }
 
-      while(!pq.empty()){
+    vector<int>ans(k,0);
 
-          v.push_back(pq.top());
+    int ind=0;
 
-          pq.pop();
+    for(int i=mx;i>=mn;i--)
 
-      }
+    {
 
-      reverse(v.begin(), v.end());
+        if(mp.find(i)!=mp.end())
 
-      return v;
+        {
+
+            int t=mp[i];
+
+            if(t>0)
+
+            {
+
+                while(t--)
+
+                {
+
+                    ans[ind++]=i;
+
+                    k--;
+
+                    if(k==0)break;
+
+                }
+
+                if(k==0)break; 
+
+            }
+
+        }
+
+    }
+
+   return ans;
 }
